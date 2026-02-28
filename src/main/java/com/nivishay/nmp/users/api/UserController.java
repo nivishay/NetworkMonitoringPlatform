@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,11 +33,10 @@ public class UserController {
                 .created(URI.create("/api/users/" + id))
                 .body(new CreateUserResponse(id));
     }
-
     @GetMapping("/get")
-    public ResponseEntity<UserResponse> getALLUsers() {
-        return userService.getAll();
-        //TODO: RETURN ALL USER ARRAY
+    public ResponseEntity<List<UserResponse>> getALLUsers() {
+        List<UserResponse> users =  userService.getAll();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")

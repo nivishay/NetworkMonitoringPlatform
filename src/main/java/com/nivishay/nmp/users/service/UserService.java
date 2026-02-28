@@ -7,12 +7,12 @@ import com.nivishay.nmp.users.repository.UserRepository;
 import com.nivishay.nmp.users.service.exception.EmailAlreadyExistsException;
 import com.nivishay.nmp.users.service.exception.UserNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -58,7 +58,14 @@ public class UserService {
         return email.trim().toLowerCase();
     }
 
-    public ResponseEntity<UserResponse> getAll() {
-        return null;
+    public List<UserResponse> getAll() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserResponse(
+                        user.getId().toString(),
+                        user.getEmail(),
+                        user.getRole().name()
+                ))
+                .collect(Collectors.toList());
     }
 }
