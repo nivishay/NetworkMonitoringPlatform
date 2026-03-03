@@ -36,5 +36,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults()) // לא חובה
                 .build();
+        //TODO: Add role-based authorization
     }
 }
