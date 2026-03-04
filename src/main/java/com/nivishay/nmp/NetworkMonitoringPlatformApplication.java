@@ -18,12 +18,11 @@ public class NetworkMonitoringPlatformApplication {
     public static void main(String[] args) {
         SpringApplication.run(NetworkMonitoringPlatformApplication.class, args);
     }
-
     @Profile("dev")
     @Bean
     CommandLineRunner test(UserService userService) {
         return args -> {
-            UUID id = userService.createUser("Test@controller2.com", "password");
+            UUID id = userService.createUser("test@test.com", "123456");
             System.out.println("Created user: " + id);
         };
     }

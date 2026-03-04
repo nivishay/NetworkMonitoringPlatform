@@ -1,5 +1,7 @@
 package com.nivishay.nmp.common.exception;
 
+import com.nivishay.nmp.targets.service.exeptions.ForbiddenExeption;
+import com.nivishay.nmp.targets.service.exeptions.TargetNotFoundException;
 import com.nivishay.nmp.users.service.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -23,5 +25,30 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
+    @ExceptionHandler(TargetNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTargetNotFound(TargetNotFoundException ex,
+                                                              HttpServletRequest request) {
+        ErrorResponse body = new ErrorResponse(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "TARGET_NOT_FOUND",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
+
+    @ExceptionHandler(ForbiddenExeption.class)
+    public ResponseEntity<ErrorResponse> handleForbidden(ForbiddenExeption ex,
+                                                         HttpServletRequest request) {
+        ErrorResponse body = new ErrorResponse(
+                Instant.now(),
+                HttpStatus.FORBIDDEN.value(),
+                "FORBIDDEN",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);
     }
 }
